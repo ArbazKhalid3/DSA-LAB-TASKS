@@ -1,0 +1,229 @@
+#include <iostream>
+#include "student.h" 
+using namespace std;
+int main() {
+	int a;
+	cin >> a;
+	Course c1(1234, "English", 2);
+	c1.enroll(53530, "Arbaz khalid");
+	c1.enroll(56626, "Husnain");
+	c1.enroll(53098, "Israr");
+	c1.enroll(54321, "Anas");
+	c1.enroll(53530, "Tayyba");
+	c1.display();
+	cout << endl;
+	c1.enroll(54378, "Faizan");
+	c1.display();
+	c1.drop(53849);
+	c1.display();
+	c1.drop(924);
+
+	return 0;
+
+
+}
+
+Main.cpp:
+#pragma once
+#include"Student.h"
+#include<iostream>
+#include<string>
+using namespace std;
+
+//.........................Student imp.........................................
+Student::Student()
+{
+	id = -1;
+	name = "";
+}
+Student::Student(int id, string name)
+{
+	this->id = id;
+	this->name = name;
+}
+void Student::setId(int id)
+{
+	this->id = id;
+}
+void Student::setName(string name)
+{
+	this->name = name;
+}
+int Student::getId()
+{
+	return id;
+}
+string Student::getName()
+{
+	return name;
+}
+
+
+//............................Course...........................
+Course::Course()
+{
+	courseId = 0;
+	courseName = "";
+	capacity = 20;
+	currentlyEnrolled = 0;
+	students = new Student[capacity];
+
+}
+
+Course::Course(int id, string name)
+{
+	courseId = id;
+	courseName = name;
+	capacity = 10;
+	currentlyEnrolled = 0;
+	students = new Student[capacity];
+
+}
+
+Course::Course(int id, string name, int capacity)
+{
+	courseId = id;
+	courseName = name;
+	this->capacity = capacity;
+	currentlyEnrolled = 0;
+	students = new Student[capacity];
+
+}
+
+// getter and setter
+
+
+
+void Course::enroll(int id, string name)
+{
+	if (currentlyEnrolled == capacity)
+	{
+		resize();
+		students[currentlyEnrolled].setId(id);
+		students[currentlyEnrolled].setName(name);
+		currentlyEnrolled++;
+	}
+	else
+	{
+		students[currentlyEnrolled].setId(id);
+		students[currentlyEnrolled].setName(name);
+		currentlyEnrolled++;
+	}
+}
+void Course::resize()
+{
+	capacity = capacity + 5;
+	Student* newStudents = new Student[capacity];
+	for (int i = 0; i < currentlyEnrolled; i++)
+	{
+		newStudents[i].setId(students[i].getId());
+		newStudents[i].setName(students[i].getName());
+	}
+	delete[] students;
+	students = newStudents;
+
+
+}
+
+int Course::search(int id)
+{
+	for (int i = 0; i < currentlyEnrolled; i++)
+	{
+		if (students[i].getId() == id)
+		{
+			return i;
+		}
+		else
+			continue;
+	} //end of for
+	return -1;
+}
+
+void Course::drop(int toDrop)
+{
+	int index = search(toDrop);
+	if (index == -1)
+	{
+		cout << "Not found" << endl;
+		return;
+	}
+	else
+	{
+		students[index].setId(0);
+		students[index].setName("");
+		shift(index);
+		currentlyEnrolled--;
+	}
+}
+
+void Course::shift(int index)
+{
+	for (int i = index; i < currentlyEnrolled; i++)
+	{
+		students[i].setId(students[i + 1].getId());
+		students[i].setName(students[i + 1].getName());
+	}
+
+}
+
+void Course::display()
+{
+	cout << "\t\tCourse ID: " << courseId << endl;
+	cout << "\t\tCourse Name: " << courseName << endl;
+	cout << "\t\tTotal enrolled: " << currentlyEnrolled << endl;
+	cout << "\t\tRemaining slots: " << capacity - currentlyEnrolled << endl << endl;
+
+	for (int i = 0; i < currentlyEnrolled; i++)
+	{
+		cout << "\tStudent ID: " << students[i].getId() << " \t Student Name: " << students[i].getName() << endl;
+	}
+}
+
+Student.h:
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+private:
+	int id;
+	string name;
+public:
+	Student();
+	Student(int, string);
+	Student(Student&);
+	int getId();
+	void setId(int);
+	string getName();
+	void setName(string);
+};
+class Course {
+private:
+	int courseId;
+	string courseName;
+	int capacity;
+	int currentlyEnrolled;
+	Student* students;
+
+public:
+	Course();
+	Course(int, string);
+	Course(int, string, int);
+	int getCourseId();
+	void setCourseId();
+	string getCourseName();
+	void setCourseName();
+	int getCapacity();
+	void setCapacity();
+	int getCurentlyEnrolled();
+	void setCurentlyEnrolled();
+
+	void enroll(int, string);
+	void drop(int);
+	void resize();
+	void shift(int);
+	int search(int);
+
+	void display();
+
+};
