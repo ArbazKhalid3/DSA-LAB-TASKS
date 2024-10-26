@@ -1,0 +1,259 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class ims {
+private:
+    int id;
+    string name;
+    string type;
+    double price;
+    int quantity;
+    ims* next;  
+
+public:
+   
+
+    int getId() {
+        return id;
+    }
+
+    void setId(int id) {
+        this->id = id;
+    }
+
+    string getName() {
+        return name;
+    }
+
+    void setName(string name) {
+        this->name = name;
+    }
+
+    string getType() {
+        return type;
+    }
+
+    void setType(string type) {
+        this->type = type;
+    }
+
+    double getPrice() {
+        return price;
+    }
+
+    void setPrice(double price) {
+        this->price = price;
+    }
+
+    int getQuantity() {
+        return quantity;
+    }
+
+    void setQuantity(int quantity) {
+        this->quantity = quantity;
+    }
+
+    ims* getNext() {
+        return next;
+    }
+
+    void setNext(ims* next) {
+        this->next = next;
+    }
+};
+
+class inventory {
+private:
+    ims* head;  
+    ims* tail; 
+
+public:
+    inventory() {
+        head = nullptr;  
+        tail = nullptr;  
+    }
+
+    void add_at_head() {
+		  ims* newItem = new ims();
+		int id;
+    string name;
+    string type;
+    double price;
+    int quantity;
+
+		cout<<"Name"<<endl;
+		cin>>name;
+		newItem->setName(name);
+
+		cout<<"id"<<endl;
+		cin>>id;
+		newItem->setId(id);
+
+		cout<<"type"<<endl;
+		cin>>type;
+		newItem->setType(type);
+
+		cout<<"type"<<endl;
+		cin>>type;
+		newItem->setType(type);
+
+		cout<<"quantity"<<endl;
+		cin>>quantity;
+		newItem->setQuantity(quantity);
+
+		newItem->setNext(nullptr);
+
+
+        if (head == nullptr) {
+            head = newItem;
+            tail = newItem;
+        } 
+		
+		else 
+		{
+            newItem->setNext(head);
+            head = newItem;
+        }
+    }
+
+
+
+    void add_at_tail()
+	{
+        ims* newItem = new ims();
+
+		int id;
+    string name;
+    string type;
+    double price;
+    int quantity;
+
+		cout<<"Name"<<endl;
+		cin>>name;
+		newItem->setName(name);
+
+		cout<<"id"<<endl;
+		cin>>id;
+		newItem->setId(id);
+
+		cout<<"type"<<endl;
+		cin>>type;
+		newItem->setType(type);
+
+		cout<<"type"<<endl;
+		cin>>type;
+		newItem->setType(type);
+
+		cout<<"quantity"<<endl;
+		cin>>quantity;
+		newItem->setQuantity(quantity);
+
+		newItem->setNext(nullptr);
+
+        if (tail == nullptr) 
+		{
+            head = newItem;
+            tail = newItem;
+        } 
+		else 
+		{
+            tail->setNext(newItem);
+            tail = newItem;
+        }
+    }
+
+
+
+	void updateNode(){
+		int id;
+		cout<<"Enter id you want to update ";
+		cin>>id;
+		if(head==nullptr){
+
+			cout<<"inventry is empty"<<endl;
+			return;
+		}
+		 ims* temp=head;
+		
+
+		while(temp!=nullptr){
+
+		if(temp->getId()==id){
+				int id;
+    string name;
+    string type;
+    double price;
+    int quantity;
+
+		cout<<"Name"<<endl;
+		cin>>name;
+		temp->setName(name);
+
+		cout<<"id"<<endl;
+		cin>>id;
+		temp->setId(id);
+
+		cout<<"type"<<endl;
+		cin>>type;
+		temp->setType(type);
+
+		
+
+		cout<<"quantity"<<endl;
+		cin>>quantity;
+	    temp->setQuantity(quantity);
+		return;
+		}
+		temp=temp->getNext();
+		}
+
+	}
+
+
+	void  deleteNode(){
+		int id;
+		cout<<"enter id you want to delete"<<endl;
+		cin>>id;
+
+
+	}
+
+
+    void print() {
+       
+        
+    }
+};
+
+int main() {
+    do{
+        inventory inv;
+        cout<<"Inventory Managment System"<<endl;
+		cout<<"press 1 for add\n";
+		cout<<"press 2 for delete\n";
+		cout<<"press 3 for update\n";
+
+		int choice;
+		cout<<"enter choice:";
+		cin>>choice;
+		switch(choice){
+		 case 1:
+			 inv.add_at_head();
+			 break;
+		 case 2:
+			 inv.deleteNode();
+			 break;
+		 case 3:
+			 inv.updateNode();
+			 break;
+		 default:
+			 cout<<"nothing"<<endl;
+
+		}
+    }while(true);
+
+ 
+    return 0;
+}
