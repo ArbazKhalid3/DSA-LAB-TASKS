@@ -1,0 +1,184 @@
+QUESTION 1
+#include <iostream>
+using namespace std;
+
+class stack{
+  public:
+  stack(){
+      top=NULL;
+  }
+  bool isempty(){
+      return top==NULL;
+  }
+  void push(int data){
+      node* n= new node;
+      n->data=data;
+      n->next=top;
+      top=n;
+  }
+  int pop(){
+      if(isempty()){
+          cout<<"stack is empty"<<endl;
+          return -1;
+      }
+      node* temp=top;
+      top=top->next;
+      int poppedData=temp->data;
+      delete temp;
+      return poppedData;
+  }
+  void countEvenOdd(){
+      int evenCount=0;
+      int oddCount=0;
+      
+      node* current=top;
+      while(current!=NULL){
+          if(current->data %2==0){
+              evenCount++;
+          }
+          else{
+              oddCount++;
+          }
+          current=current->next;
+      }
+      if(evenCount==oddCount){
+          cout<<"even and odd intg are equal"<<endl;
+      }
+      else{
+          cout<<"even and odd intg are not equal"<<endl;
+      }
+  }
+  void print(){
+      if(isempty()){
+          cout<<"stack is empty"<<endl;
+          return;
+      }
+      cout<<"stack element"<<endl;
+      node* current=top;
+      while(current!=NULL){
+          cout<<current->data<<" ";
+          current=current->next;
+      }
+      cout<<endl;
+  }
+  private:
+  class node{
+      public:
+      int data;
+      node* next;
+  };node* top;
+};
+
+
+int main() {
+  stack mystack;
+  mystack.push(1);
+  mystack.push(2);
+  mystack.push(3);
+  mystack.push(4);
+  mystack.print();
+  cout<<endl;
+  
+  cout<<"even odd numbers"<<endl;
+  mystack.countEvenOdd();
+  mystack.print();
+  cout<<endl;
+
+    return 0;
+}
+
+QUESTION 2
+#include <iostream>
+using namespace std;
+class node{
+  private:
+  int data;
+  node* next;
+  
+  public:
+  node(int data){
+      this->data=data;
+      this->next=NULL;
+  }
+  int getData(){
+      return data;
+  }
+  void setData(int data){
+      this->data=data;
+  }
+  node* getNext(){
+      return next;
+  }
+  void setNext(node* next){
+      this->next=next;
+  }
+  
+    
+};
+class qeue{
+  private:
+  node* rear;
+  node* front;
+  
+  public:
+  qeue(){
+      this->rear=NULL;
+      this->front=NULL;
+  }
+  void enqeue(int data){
+      node* n= new node(data);
+      if(front==NULL){
+          front=n;
+          rear=n;
+      }
+      else{
+          rear->setNext(n);
+          rear=n;
+      }
+  }
+    void deqeue(){
+        node*temp=front;
+        if(front==NULL){
+            cout<<"no list exit";
+            return;
+        }
+        else{
+            front=front->getNext();
+            delete temp;
+        }
+    }
+    void display(){
+        if(front==NULL){
+            cout<<"qeue is empty"<<endl;
+            return;
+        }
+        node*temp=front;
+        while(temp!=NULL){
+            cout<<temp->getData()<<" "<<endl;
+            temp=temp->getNext();
+            
+        }
+        cout<<endl;
+    }
+};
+int main() {
+    
+    qeue myqeue;
+    cout<<"enqeue elements"<<endl;
+    myqeue.enqeue(1);
+    myqeue.enqeue(2);
+    myqeue.enqeue(3);
+    myqeue.enqeue(4);
+    
+    myqeue.display();
+    cout<<endl;
+    
+    cout<<"deqeue elements"<<endl;
+    myqeue.deqeue();
+    myqeue.display();
+    cout<<endl;
+    
+    
+
+    return 0;
+}
