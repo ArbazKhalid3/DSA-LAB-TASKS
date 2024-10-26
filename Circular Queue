@@ -1,0 +1,106 @@
+#include <iostream>
+using namespace std;
+
+
+class queue{
+    public:
+    int size;
+    int length;
+    int front;
+    int rear;
+    int *qdata;
+    
+    queue(){
+        size=5;
+        length=0;
+        front=-1;
+        rear=-1;
+        qdata=new int[size];
+    }
+    bool isempty(){
+        if(length==0){
+            return true;
+        }
+        return false;
+    }
+    bool isfull(){
+        if(length==size){
+            return true;
+        }
+        else{
+            false;
+        }
+    }
+    
+
+    void equeue(int x){
+        //If the queue is empty, it sets front and rear to 0 and inserts the value at that index.
+//If the queue is not full, it uses the modulo operator to wrap the rear index, allowing for circular behavior.
+//If the queue is full, it prints "Queue is full".
+        if(isempty()){
+          qdata[rear+1]=x;  
+          rear=rear+1;
+          front=front+1;
+          length++;
+          cout<<"inserted"<<endl;
+        }
+        else if(length>size){
+            rear=(rear+1)%size;
+            qdata[rear]=x;
+            length++;
+            cout<<"secesfully inserted"<<endl;
+        }
+        else{
+            cout<<"queue is full"<<endl;
+        }
+    
+    void dqueue(){
+        if(isempty()){
+            cout<<"empty"<<endl;
+            return;
+        }
+        else{
+        front=(front+1)%size;
+        length--;
+        cout<<"removed"<<endl;
+        }
+    }
+    void print(){
+        if(front==-1){
+            cout<<"empty"<<endl;
+        }
+        else if(rear<front){
+            for(int i=front;i<size;i++){
+                cout<<qdata[i]<<endl;
+            }
+            for(int i=0;i<=rear;i++){
+                cout<<qdata[i];<<endl;
+            }
+        }
+        else{
+            for(int i=front;i<=rear;i++){
+             cout<<qdata[i];   
+            }
+        }
+    }
+    }
+};
+
+int main() {
+    queue myq;
+    
+    myq.equeue(1);
+    myq.equeue(2);
+    myq.equeue(3);
+    myq.equeue(4);
+    myq.equeue(5);
+    myq.print();
+    
+    myq.dqueue();
+    myq.print();
+    
+    myq.equeue(33);
+    myq.print();
+
+    return 0;
+}
