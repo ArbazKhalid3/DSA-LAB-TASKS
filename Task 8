@@ -1,0 +1,163 @@
+Question 1
+#include <iostream>
+using namespace std;
+
+class stack{
+    public:
+    stack(){
+        top=NULL;
+    }
+    bool isEmpty(){
+        return top==NULL;
+    }
+    void push(int data){
+        node* n= new node;
+        n->data=data;
+        n->next=top;
+        top=n;
+    }
+    int pop(){
+        if(isEmpty()){
+            cout<<"stack is empty:"<<endl;
+            return -1;
+        }
+        node* temp=top;
+        top=top->next;
+        int poppedData=temp->data;
+        delete temp;
+        return poppedData;
+    }
+    //top of element without popping
+    int peak(){
+        if(isEmpty()){
+            cout<<"stack is empty:"<<endl;
+            return -1;
+        }
+        return top->data;
+    }
+    //count even and odd numbers in the stack
+    void countEvenOdd(){
+        int evenCount=0;
+        int oddCount=0;
+        node* current=top;
+        while(current!=NULL){
+            if(current->data %2==0){
+                evenCount++;
+            }
+            current = current->next;
+        }
+        if(evenCount==oddCount){
+            cout<<"number of even and odd integers are equal:"<<endl;
+        }
+            else{
+                cout<<"number of even and odd are not equal::"<<endl;
+            }
+        }
+
+    void print() {
+        if (isEmpty()) {
+            cout << "Stack is empty." << endl;
+            return;
+        }
+        cout << "Stack elements: ";
+        node* current = top;
+        while (current != NULL) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+
+private:
+    class node{
+    public:
+    int data;
+    node* next;
+        };
+    node* top;
+};
+
+int main(){
+    stack mystack;
+    mystack.push(10);
+    mystack.push(5);
+    mystack.push(12);
+    mystack.push(7);
+    mystack.push(8);
+    
+    mystack.print();
+    //count even and odd numbers
+    mystack.countEvenOdd();
+    return 0;
+    
+    return 0;
+}
+Question 2:
+#include <iostream>
+using namespace std;
+
+class stack{
+    private:
+    int arr[6];
+    int top;
+    
+public:
+stack(){
+    top=-1;
+}
+void push(int data){
+    if(top>=4){
+        cout<<"stack overflow"<<endl;
+    }
+    else{
+        top++;
+        arr[top]=data;
+    }
+}
+void pop(){
+    if(top==-1){
+        cout<<"stack underflow"<<endl;
+    }
+    else{
+        cout<<"popped:"<<arr[top]<<endl;
+        top--;
+    }
+}
+bool isEmpty(){
+    return top=-1;
+}
+void display(){
+    if(top==-1){
+        cout<<"stack is empty"<<endl;
+        return;
+    }
+    cout<<"stack element"<<endl;
+    for(int i= top;i>=0;i--){
+        cout<<arr[i]<<"-";
+        if(arr[i]%2==0){
+            cout<<"Even numbers"<<endl;
+        }
+        else{
+            cout<<"odd numbers"<<endl;
+        }
+    }
+    cout<<endl;
+}
+};
+
+int main(){
+    stack mystack;
+    mystack.push(10);
+    mystack.push(5);
+    mystack.push(12);
+    mystack.push(7);
+    mystack.push(8);
+    mystack.push(6);
+    
+    mystack.display();
+    
+    mystack.pop();
+    return 0;
+    
+    
+}
