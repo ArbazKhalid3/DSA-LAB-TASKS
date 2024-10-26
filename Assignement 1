@@ -1,0 +1,139 @@
+QUESTION 1
+
+#include <iostream>
+using namespace std;
+
+class person{
+    private:
+    string name;
+    string adress;
+    int age;
+    string phone;
+    
+    //getter\setter
+    public:
+     string getName(){
+         return name;
+     }
+     void setName(string n){
+         name=n;
+     }
+     string getAdress(){
+         return adress;
+     }
+     void setAdress(string a){
+         adress=a;
+     }
+     int getAge(){
+         return age;
+     }
+     void setAge(int ag){
+         age=ag;
+     }
+     string getPhone(){
+         return phone;
+     }
+     void setPhone(string p){
+         phone=p;
+     }
+};
+
+int main() {
+    //creating object
+   person person1;
+   person1.setName("Arbaz");
+   cout<<person1.getName()<<endl;
+   
+   person1.setAdress("Islamabad");
+   cout<<person1.getAdress()<<endl;
+   
+   person1.setAge(20);
+   cout<<person1.getAge()<<endl;
+   
+   person1.setPhone("03415951642");
+   cout<<person1.getPhone()<<endl;
+   
+   //2object
+   person person2;
+   person2.setName("Kaleem");
+   cout<<person2.getName()<<endl;
+   
+   person2.setAdress("Dubai");
+   cout<<person2.getAdress()<<endl;
+   
+   person2.setAge(19);
+   cout<<person2.getAge()<<endl;
+   
+   person2.setPhone("03345951642");
+   cout<<person2.getPhone()<<endl;
+   
+   //3object
+   person person3;
+   person3.setName("Anas");
+   cout<<person3.getName()<<endl;
+   
+   person3.setAdress("UAE");
+   cout<<person3.getAdress()<<endl;
+   
+   person3.setAge(19);
+   cout<<person3.getAge()<<endl;
+   
+   person3.setPhone("+71415951642");
+   cout<<person3.getPhone()<<endl;
+    return 0;
+}
+
+QUESTION 2
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+
+class circle{
+  private:
+  double radius;
+  double pi=3.1419;
+  
+  //constructer
+  public:
+  circle(){
+      
+  }
+  circle(double radius){
+      
+  }
+  //getter setter
+  public:
+  double getRadius(){
+      return radius;
+  }
+  void setRadius(double r){
+      radius=r;
+  }
+  double getArea(){
+      return   pi * radius * radius;
+  }
+  double getDiameter(){
+      return   radius * 2;
+  }
+ double getCircumference(){
+     return  2 * pi * radius;
+ }
+};
+
+int main() {
+    //creating object
+  circle circle1;
+  circle1.setRadius(0.0);
+  cout<<circle1.getRadius()<<endl;
+  cout<<circle1.getArea()<<endl;
+  cout<<circle1.getDiameter()<<endl;
+  cout<<circle1.getCircumference()<<endl;
+  //another object for radius 
+    circle circle2;
+  circle1.setRadius(3);
+  cout<<circle2.getRadius()<<endl;
+  cout<<circle2.getArea()<<endl;
+  cout<<circle2.getDiameter()<<endl;
+  cout<<circle2.getCircumference()<<endl;
+    return 0;
+}
