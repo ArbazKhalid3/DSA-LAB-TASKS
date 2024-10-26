@@ -1,0 +1,140 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void enroll(string* DS, string* MC, string* Is, int size);
+void view(string* Ds,string* MC,string*Is,int size);
+void drop(string* Ds,string* MC,string*Is,int size);
+
+int main() {
+    
+    while(true){
+        cout<<"press 1 for enroll"<<endl;
+        cout<<"press 2 view"<<endl;
+        cout<<"press 3 for course drop"<<endl;
+        cout<<"press 4 for exist"<<endl;
+    
+    
+    
+    
+    int size;
+    cout << "Enter the number of students you want to add: ";
+    cin >> size;
+
+    // Dynamically allocate arrays based on size
+    string* DS = new string[size];
+    string* MC = new string[size];
+    string* Is = new string[size];
+
+    enroll(DS, MC, Is, size);
+    return 0;
+}
+
+}
+
+    
+
+void view(string* DS, string* MC, string* Is, int size){
+    for(int i=0;i<size;i++){
+        cout<<"Name of student::"<<DS[i]<<MC[i]<<Is[i]<<endl;
+    }
+}
+
+
+void enroll(string* DS, string* MC, string* Is, int size) {
+    cout << "         COURSE        " << endl;
+    cout << "Press 1 for DS" << endl;
+    cout << "Press 2 for MC" << endl;
+    cout << "Press 3 for IS" << endl;
+
+    for (int i = 0; i < size; i++) {
+        int choice;
+        string name;
+        
+        cout << "Enter the name of student: ";
+        cin >> name;
+        
+        cout << "Choose the course: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                DS[i] = name;
+                break;
+            case 2:
+                MC[i] = name;
+                break;
+            case 3:
+                Is[i] = name;
+                break;
+            default:
+                cout << "Invalid choice. No course selected for " << name << "." << endl;
+                break;
+        }
+    }
+}
+void drop(string* Ds,string* MC,string*Is,int size){
+    cout << "         DROP COURSES        " << endl;
+    cout << "Press 1 for DS drop" << endl;
+    cout << "Press 2 for MC drop" << endl;
+    cout << "Press 3 for IS drop" << endl;
+
+    for(int i=0;i<size;i++){
+        int choice;
+        string name;
+        
+        cout << "Enter the name of course you want to drop: ";
+        cin >> name;
+        
+        cout << "Choose the course: ";
+        cin >> choice;
+        bool found=false;
+        switch (choice){
+            case 1:
+            for(int i=0;i<size;i++){
+               
+               if( Ds[i]==name){
+                   Ds[i]="";//clear the record
+                   found=true;
+                   break;
+               }
+                
+            }
+            break;
+            case 2:
+            for(int i=0;i<size;i++){
+               
+               if( MC[i]==name){
+                   MC[i]=" ";//clear the record
+                   found=true;
+                   break;
+               }
+                
+            }
+            break;
+            case 3:
+            for(int i=0;i<size;i++){
+               
+               if( Is[i]==name){
+                   Is[i]=" ";//clear the record
+                   found=true;
+                   break;
+               }
+                
+            }
+            break;
+            default:
+                cout << "Invalid courses "  << endl;
+                break;
+        }
+        if(found){
+            cout<<"Student"<<name<<"drop sucessfully"<<endl;
+        }
+        else
+        {
+            cout<<"Student"<<name<<"courses not found"<<endl;
+        }
+        
+    }
+}
