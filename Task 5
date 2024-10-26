@@ -1,0 +1,157 @@
+Q:
+#include<iostream>
+using namespace std;
+
+class Node {
+
+private:
+    int sap;
+    Node* link;
+
+public:
+    
+    Node(int value)
+    {
+        sap = value;
+        link = NULL;
+    }
+
+    void setSap(int value)
+    {
+        sap = value;
+    }
+
+    void setLink(Node* newlink)
+    {
+        link = newlink;
+    }
+
+    int getSap()
+    {
+        return sap;
+    }
+
+    Node* getLink()
+    {
+        return link;
+    }
+};
+
+
+class List {
+private:
+    Node* head;
+    Node* tail;
+
+public:
+    List()
+    {
+        head = NULL;
+        tail = NULL;
+    }
+
+    void HEAD(int value)
+    {
+        if (head == NULL)
+        {
+            head = new Node(value);
+            tail = head;
+        }
+        else
+        {
+            Node* temp = new Node(value);
+            temp->setLink(head);
+            head = temp;
+        }
+    }
+
+
+    void TAIL(int value)
+    {
+        if (head == NULL)
+        {
+            head = new Node(value);
+            tail = head;
+        }
+        else
+        {
+            Node* temp = new Node(value);
+            tail->setLink(temp);
+            tail = temp;
+        }
+    }
+    bool search(int value)
+    {
+        Node* temp = head;
+        while (temp != NULL) 
+        {
+            if (temp->getSap() == value) 
+            {
+                cout << "found.\n";
+                return true;
+               
+            }
+            temp = temp->getLink();
+        }
+        cout << "not found .\n";
+        return false;
+        
+    }
+
+
+
+
+    void print()
+    {
+        Node* temp = head;
+
+        while (temp != NULL)
+        {
+            cout << temp->getSap() << endl;
+            temp = temp->getLink();
+        }
+    }
+};
+
+
+int main()
+{
+    List l1;
+    int choice;
+    do {
+        cout << "1) ADD .\n";
+        cout << "2) Print .\n";
+        cout << "3) Search .\n";
+
+        cout << "enter a choice :";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            int value;
+            cout << "enter sap: ";
+            cin >> value;
+            l1.HEAD(value);
+            break;
+         case 2:
+             l1.print();
+             break;
+         case 3:
+             int data;
+             cout << "enter to search :";
+             cin >> data;
+             l1.search(data);
+             break;
+
+
+
+
+
+
+        }
+    } while (true);
+
+}
+
+
