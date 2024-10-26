@@ -1,0 +1,253 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Student {
+public:
+    int cms; // CMS (student ID)
+    string name;
+    Student* next;
+
+    Student(int cms, const string& name) : cms(cms), name(name), next(nullptr) {}
+};
+
+class Course {
+public:
+    int courseID;
+    string courseName;
+    int totalSeats;
+    int enrolledCount;
+    Student* enrolledStudents; // Head pointer for the linked list
+    Course* next; // Pointer to the next course
+
+    Course(int id, const string& name, int seats) 
+        : courseID(id), courseName(name), totalSeats(seats), enrolledCount(0), enrolledStudents(nullptr), next(nullptr) {}
+
+    bool enrollStudent(int cms, const string& name) {
+        // Enroll student in available seat or increase seats
+        Student* newStudent = new Student(cms, name);
+        newStudent->next = enrolledStudents; // Add new student at the head
+        enrolledStudents = newStudent;
+        enrolledCount++;
+        if (enrolledCount > totalSeats) {
+            totalSeats++; // Increase seats if needed
+        }
+        return true;
+    }
+
+    bool dropStudent(int cms) {
+        Student* current = enrolledStudents;
+        Student* previous = nullptr;
+
+        while (current) {
+            if (current->cms == cms) {
+                if (previous) {
+                    previous->next = current->next; // Remove current student
+                } else {
+                    enrolledStudents = current->next; // Remove head
+                }
+                delete current; // Free memory
+                enrolledCount--;
+                return true;
+            }
+            previous = current;
+            current = current->next;
+        }
+        return false; // Student not found
+    }
+
+    bool isStudentEnrolled(int cms) {
+        Student* current = enrolledStudents;
+        while (current) {
+            if (current->cms == cms) {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
+    }
+
+    void displayCourseInfo() {
+        cout << "Course ID: " << courseID << ", Course Name: " << courseName 
+             << ", Total Seats: " << totalSeats 
+             << ", Enrolled Students: " << enrolledCount << endl;
+
+        Student* current = enrolledStudents;
+        while (current) {
+            cout << " - Student CMS: " << current->cms << ", Name: " << current->name << endl;
+            current = current->next;
+        }
+    }
+};
+
+class CourseRegistrationSystem {
+private:
+    Course* courses; // Head pointer for the linked list
+
+public:
+    CourseRegistrationSystem() : courses(nullptr) {}
+
+    void addCourse(int id, const string& name, int seats) {
+        // Check for duplicate course IDs
+        Course* current = courses;
+        while (current) {
+            if (current->courseID == id) {
+                cout << "Course ID already exists!" << endl;
+                return;
+            }
+            current = current->next;
+        }
+
+        // Create and add new course
+        Course* newCourse = new Course(id, name, seats);
+        newCourse->next = courses; // Add new course at the head
+        courses = newCourse;
+        cout << "Course added: " << name << endl;
+    }
+
+    void enrollStudent(int courseID, int cms, const string& name) {
+        Course* current = courses;
+        while (current) {
+            if (current->courseID == courseID) {
+                if (current->enrollStudent(cms, name)) {
+                    cout << "Student enrolled: " << name << " in course: " << current->courseName << endl;
+                }
+                return;
+            }
+            current = current->next;
+        }
+        cout << "Course not found!" << endl;
+    }
+
+    void dropStudent(int courseID, int cms) {
+        Course* current = courses;
+        while (current) {
+            if (current->courseID == courseID) {
+                if (current->dropStudent(cms)) {
+                    cout << "Student dropped from course: " << current->courseName << endl;
+                } else {
+                    cout << "Student not found in this course!" << endl;
+                }
+                return;
+            }
+            current = current->next;
+        }
+        cout << "Course not found!" << endl;
+    }
+
+    void searchStudent(int courseID, int cms) {
+        Course* current = courses;
+        while (current) {
+            if (current->courseID == courseID) {
+                if (current->isStudentEnrolled(cms)) {
+                    cout << "Student is enrolled in course: " << current->courseName << endl;
+                } else {
+                    cout << "Student is NOT enrolled in course: " << current->courseName << endl;
+                }
+                return;
+            }
+            current = current->next;
+        }
+        cout << "Course not found!" << endl;
+    }
+
+    void generateCoursesReport() {
+        Course* current = courses;
+        while (current) {
+            current->displayCourseInfo();
+            cout << "-------------------------------" << endl;
+            current = current->next;
+        }
+    }
+
+    ~CourseRegistrationSystem() {
+        // Clean up memory
+        Course* currentCourse = courses;
+        while (currentCourse) {
+            Student* currentStudent = currentCourse->enrolledStudents;
+            while (currentStudent) {
+                Student* temp = currentStudent;
+                currentStudent = currentStudent->next;
+                delete temp; // Free student memory
+            }
+            Course* temp = currentCourse;
+            currentCourse = currentCourse->next;
+            delete temp; // Free course memory
+        }
+    }
+};
+
+int main() {
+    CourseRegistrationSystem system;
+    int choice;
+
+    do {
+        cout << "\nCourse Registration System Menu:\n";
+        cout << "1. Add New Course\n";
+        cout << "2. Enroll Student\n";
+        cout << "3. Drop Course\n";
+        cout << "4. Search Student\n";
+        cout << "5. Generate Courses Report\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                int id, seats;
+                string name;
+                cout << "Enter Course ID: ";
+                cin >> id;
+                cout << "Enter Course Name: ";
+                cin.ignore();
+                getline(cin, name);
+                cout << "Enter Total Seats: ";
+                cin >> seats;
+                system.addCourse(id, name, seats);
+                break;
+            }
+            case 2: {
+                int courseID, cms;
+                string name;
+                cout << "Enter Course ID: ";
+                cin >> courseID;
+                cout << "Enter Student CMS: ";
+                cin >> cms;
+                cout << "Enter Student Name: ";
+                cin.ignore();
+                getline(cin, name);
+                system.enrollStudent(courseID, cms, name);
+                break;
+            }
+            case 3: {
+                int courseID, cms;
+                cout << "Enter Course ID: ";
+                cin >> courseID;
+                cout << "Enter Student CMS: ";
+                cin >> cms;
+                system.dropStudent(courseID, cms);
+                break;
+            }
+            case 4: {
+                int courseID, cms;
+                cout << "Enter Course ID: ";
+                cin >> courseID;
+                cout << "Enter Student CMS: ";
+                cin >> cms;
+                system.searchStudent(courseID, cms);
+                break;
+            }
+            case 5:
+                system.generateCoursesReport();
+                break;
+            case 6:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice! Please try again.\n";
+        }
+    } while (choice != 6);
+
+    return 0;
+}
