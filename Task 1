@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+
+int funPower(int number,int expo);
+ 
+int main() {
+    int number;
+    int expo;
+    
+    cout<<"enter number"<<endl;
+    cin>>number;
+    cout<<"enter exponet"<<endl;
+    cin>>expo;
+    cout<<"Result"<<funPower( number , expo);
+    
+}
+
+int funPower(int number,int expo)
+{
+    int result =1;
+    for(int i=1; i<=expo;i++)
+    {
+        result=result*number;
+    }
+    
+    return result;
+}
+    
+    
+
+    
