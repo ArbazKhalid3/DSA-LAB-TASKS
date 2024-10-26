@@ -1,0 +1,505 @@
+Question 1
+
+
+#include<iostream>
+using namespace std;
+
+class Node
+{
+private:
+    float data;
+    Node* next;
+    Node* previous;
+
+public:
+    Node()
+    {
+        data = 0;
+        next = NULL;
+        previous = NULL;
+    }
+    Node(float value)
+    {
+        this->data = value;
+        this->next = NULL;
+        this->previous = NULL;
+
+    }
+
+    void setData(float value)
+    {
+        this->data = value;
+    }
+
+    void setNext(Node* next)
+    {
+        this->next = next;
+    }
+
+    void setPrevious(Node* previous)
+    {
+        this->previous = previous;
+    }
+
+    int getData()
+    {
+        return this->data;
+    }
+
+    Node* getNext()
+    {
+        return this->next;
+    }
+    Node* getPrevious()
+    {
+        return this->previous;
+    }
+};
+
+class List
+{
+private:
+	Node *head;
+	Node *tail;
+
+public:
+	List()
+	{
+		head=NULL;
+		tail=NULL;
+	}
+
+	//void remove(int);
+
+bool isEmpty()
+{
+	if(head==NULL)
+	{
+	return true;
+	}
+	else
+	{
+	return false;
+	}
+}
+void addAtHead(float value)
+{
+	if(isEmpty())
+	{
+		Node *new_Node= new Node(value);
+		head=new_Node;
+		tail=new_Node;
+	}
+	else
+	{
+		Node *new_Node= new Node(value);
+		new_Node->setNext(head);
+		head->setPrevious(new_Node);
+		head=new_Node;
+	}
+
+
+}
+
+void addAtTail(float value)
+{
+	if(isEmpty())
+	{
+		Node *new_Node= new Node(value);
+		head=new_Node;
+		tail=new_Node;
+	}
+	else
+	{
+		Node *new_Node= new Node(value);
+		tail->setNext(new_Node);
+		new_Node->setPrevious(tail);
+		tail=new_Node;
+	}
+}
+void search(float target){
+    bool found =false;
+    Node* temp = head;
+    while(temp!=NULL){
+        if(temp->getData()){
+            found=true;
+            break;
+        }
+        temp=temp->getNext();
+    }
+    if(found){
+        cout<<"found"<<endl;
+    }
+    else{
+        cout<<"not found"<<endl;
+    }
+}
+void addAtTarget(float tar,float value)
+{
+	Node *target=head;
+	while(target!=NULL)
+	{
+		if(target->getData()==tar)
+		{
+			break;
+		}
+		else
+		{
+			target=target->getNext();
+		}
+	}
+	if(target==NULL)
+	{
+		cout<<"Not found"<<endl;
+		return;
+	}
+	else if(target==head)
+	{
+		addAtHead(value);
+	}
+	else
+	{
+		Node *new_Node=new Node(value);
+		
+		new_Node->setNext(target);
+		new_Node->setPrevious(target->getPrevious());
+
+		target->getPrevious()->setNext(new_Node);
+		target->setPrevious(new_Node);
+		
+	
+
+	}
+}
+
+void print()
+{
+	Node *temp=head;
+	while(temp!=NULL)
+	{
+		cout<<temp->getData()<<endl;
+		temp=temp->getNext();
+	}
+}
+
+void remove(float value)
+{
+	Node *target=head;
+	while(target!=NULL)
+	{
+		if(target->getData()==value)
+		{
+			break;
+		}
+	}
+
+	Node *previous=target->getPrevious();
+	Node *next=target->getNext();
+
+	if(target==head)
+	{
+		head=head->getNext();
+		head->setPrevious(NULL);
+		delete target;
+	}
+
+	else if(target==tail)
+	{
+		tail=target->getPrevious();
+		tail->setNext(NULL);
+		delete target;
+	}
+	else
+	{
+		previous->setNext(target->getNext());
+		next->setPrevious(target->getPrevious());
+		delete target;
+	}
+}	
+};
+int main(){
+    List ll;
+    cout<<"inseration at tail"<<endl;
+    ll.addAtTail(1);
+    ll.addAtTail(2);
+    ll.addAtTail(4);
+    ll.print();
+    cout<<endl;
+    
+    cout<<"inseration At Head"<<endl;
+    ll.addAtHead(0);
+    ll.print();
+    cout<<endl;
+    
+    cout<<"searching"<<endl;
+    ll.search(0);
+    ll.print();
+    cout<<endl;
+    
+    ll.search(5);
+    ll.print();
+    cout<<endl;
+    
+    cout<<"deleting numbers"<<endl;
+    ll.remove(4);
+    ll.print();
+    cout<<endl;
+    
+}
+
+Question 2
+#include<iostream>
+using namespace std;
+
+class Node
+{
+private:
+    float data;
+    Node* next;
+    Node* previous;
+
+public:
+    Node()
+    {
+        data = 0;
+        next = NULL;
+        previous = NULL;
+    }
+    Node(float value)
+    {
+        this->data = value;
+        this->next = NULL;
+        this->previous = NULL;
+
+    }
+
+    void setData(float value)
+    {
+        this->data = value;
+    }
+
+    void setNext(Node* next)
+    {
+        this->next = next;
+    }
+
+    void setPrevious(Node* previous)
+    {
+        this->previous = previous;
+    }
+
+    int getData()
+    {
+        return this->data;
+    }
+
+    Node* getNext()
+    {
+        return this->next;
+    }
+    Node* getPrevious()
+    {
+        return this->previous;
+    }
+};
+
+class List
+{
+private:
+	Node *head;
+	Node *tail;
+
+public:
+	List()
+	{
+		head=NULL;
+		tail=NULL;
+	}
+
+	//void remove(int);
+
+bool isEmpty()
+{
+	if(head==NULL)
+	{
+	return true;
+	}
+	else
+	{
+	return false;
+	}
+}
+void addAtHead(float value)
+{
+	if(isEmpty())
+	{
+	    Node* new_Node= new Node(value);
+		new_Node->setPrevious(head);
+		new_Node->setNext(head);
+		
+	}
+	else
+	{
+		Node* new_Node= new Node(value);
+		new_Node->setPrevious(tail);
+		tail->setNext(new_Node);
+		
+		new_Node->setNext(head);
+		head->setPrevious(new_Node);
+		
+		tail=new_Node;
+	}
+
+
+}
+
+void addAtTail(float value)
+{
+	if(isEmpty())
+	{
+		Node *new_Node= new Node(value);
+		new_Node->setPrevious(head);
+		new_Node->setNext(head);
+		
+	}
+	else
+	{
+		Node* new_Node= new Node(value);
+		new_Node->setPrevious(tail);
+		tail->setNext(new_Node);
+		
+		new_Node->setNext(head);
+		head->setPrevious(new_Node);
+		
+		tail=new_Node;
+	}
+}
+void search(float target){
+    bool found =false;
+    Node* temp = head;
+    while(temp!=NULL){
+        if(temp->getData()){
+            found=true;
+            break;
+        }
+        temp=temp->getNext();
+    }
+    if(found){
+        cout<<"found"<<endl;
+    }
+    else{
+        cout<<"not found"<<endl;
+    }
+}
+void addAtTarget(float tar,float value)
+{
+	Node *target=head;
+	while(target!=NULL)
+	{
+		if(target->getData()==tar)
+		{
+			break;
+		}
+		else
+		{
+			target=target->getNext();
+		}
+	}
+	if(target==NULL)
+	{
+		cout<<"Not found"<<endl;
+		return;
+	}
+	else if(target==head)
+	{
+		addAtHead(value);
+	}
+	else
+	{
+		Node *new_Node=new Node(value);
+		
+		new_Node->setNext(target);
+		new_Node->setPrevious(target->getPrevious());
+
+		target->getPrevious()->setNext(new_Node);
+		target->setPrevious(new_Node);
+		
+	
+
+	}
+}
+
+void print()
+{
+	Node *temp=head;
+	while(temp!=NULL)
+	{
+		cout<<temp->getData()<<endl;
+		temp=temp->getNext();
+	}
+}
+
+void remove(float value)
+{
+	Node *target=head;
+	while(target!=NULL)
+	{
+		if(target->getData()==value)
+		{
+			break;
+		}
+	}
+
+	Node *previous=target->getPrevious();
+	Node *next=target->getNext();
+
+	if(target==head)
+	{
+		head=head->getNext();
+		head->setPrevious(NULL);
+		delete target;
+	}
+
+	else if(target==tail)
+	{
+		tail=target->getPrevious();
+		tail->setNext(NULL);
+		delete target;
+	}
+	else
+	{
+		previous->setNext(target->getNext());
+		next->setPrevious(target->getPrevious());
+		delete target;
+	}
+}	
+};
+int main(){
+    List ll;
+    cout<<"inseration at tail"<<endl;
+    ll.addAtTail(1);
+    ll.addAtTail(2);
+    ll.addAtTail(4);
+    ll.print();
+    cout<<endl;
+    
+    cout<<"inseration At Head"<<endl;
+    ll.addAtHead(0);
+    ll.print();
+    cout<<endl;
+    
+    cout<<"searching"<<endl;
+    ll.search(0);
+    ll.print();
+    cout<<endl;
+    
+    ll.search(5);
+    ll.print();
+    cout<<endl;
+    
+    cout<<"deleting numbers"<<endl;
+    ll.remove(4);
+    ll.print();
+    cout<<endl;
+    
+}
