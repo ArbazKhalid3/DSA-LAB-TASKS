@@ -1,0 +1,157 @@
+#include <iostream>
+using namespace std;
+
+// Node class definition
+class Node {
+private:
+    int data; // Value of the node
+    int key;  // Priority of the node
+    Node* next; // Pointer to the next node
+
+public:
+    // Constructor
+    Node(int data, int key) {
+        this->data = data; // Use 'this' to distinguish member variables
+        this->key = key;
+        this->next = nullptr; // Initialize next pointer to NULL
+    }
+
+    // Setters and Getters
+    void setData(int data) {
+        this->data = data;
+    }
+
+    void setKey(int key) {
+        this->key = key;
+    }
+
+    void setNext(Node* next) {
+        this->next = next;
+    }
+
+    int getData() {
+        return data;
+    }
+
+    int getKey() {
+        return key;
+    }
+
+    Node* getNext() {
+        return next;
+    }
+};
+
+// Queue class definition
+class Queue {
+private:
+    Node* front; // Pointer to the front of the queue
+    Node* rear;  // Pointer to the rear of the queue
+
+public:
+    // Constructor
+    Queue() {
+        front = nullptr; // Initialize front to NULL
+        rear = nullptr;  // Initialize rear to NULL
+    }
+
+    // Check if the queue is empty
+    bool isEmpty() {
+        return front == nullptr; // Return true if the queue is empty
+    }
+
+    // Enqueue method to add an element to the queue
+    void enQueue(int data, int key) {
+        Node* new_Node = new Node(data, key); // Create a new node
+        if (isEmpty()) {
+            front = new_Node; // Set front to the new node
+            rear = new_Node;  // Set rear to the new node
+        } else {
+            rear->setNext(new_Node); // Link the new node at the end
+            rear = new_Node;         // Update rear to the new node
+        }
+        sort(); // Sort after adding a new element
+    }
+
+    // Dequeue method to remove the front element
+    void deQueue() {
+        if (isEmpty()) {
+            cout << "Queue is empty, cannot dequeue." << endl;
+            return;
+        } else {
+            Node* temp = front; // Temporary pointer to front node
+            front = front->getNext(); // Move front to the next node
+            delete temp; // Delete the old front node
+        }
+    }
+
+    // Print the contents of the queue
+    void print() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return;
+        }
+        Node* temp = front; // Start from the front of the queue
+        cout << "\tData\t\tPriority" << endl;
+        while (temp != nullptr) {
+            cout << "\t" << temp->getData() << "\t\t" << temp->getKey() << endl; // Print data and key
+            temp = temp->getNext(); // Move to the next node
+        }
+    }
+
+    // Swap two nodes
+    void swap(Node* current, Node* next)
+    {
+        int tempData = current->getData();
+        int tempKey = current->getKey();
+        current->setData(next->getData());
+        current->setKey(next->getKey());
+        next->setData(tempData);
+        next->setKey(tempKey);
+    }
+
+    // Sort the queue based on priority
+    void sort() {
+        if (isEmpty()) return; // No need to sort if queue is empty
+        for (Node* temp = front; temp != nullptr; temp = temp->getNext()) {
+            for (Node* temp2 = temp->getNext(); temp2 != nullptr; temp2 = temp2->getNext()) {
+                if (temp2->getKey() < temp->getKey()) {
+                    swap(temp, temp2); // Swap if current key is greater than next key
+                }
+            }
+        }
+    }
+
+    // Destructor to free allocated memory
+    ~Queue() {
+        while (!isEmpty()) {
+            deQueue(); // Dequeue all elements to free memory
+        }
+    }
+};
+
+// Main function
+int main() {
+    Queue Q; // Create a Queue object
+    Q.enQueue(5, 2);
+    Q.enQueue(8, 1);
+    Q.enQueue(16, 3);
+    Q.enQueue(15, 2);
+    Q.enQueue(18, 4);
+    cout << "Initial queue:" << endl;
+    Q.print(); // Print the queue contents
+
+    Q.enQueue(28, 7);
+    cout << "\nAfter adding 28 with priority 7:" << endl;
+    Q.print(); // Print the queue contents
+
+    Q.enQueue(28, 5);
+    cout << "\nAfter adding 28 with priority 5:" << endl;
+    Q.print(); // Print the queue contents
+
+    Q.enQueue(28, -1);
+    cout << "\nAfter adding 28 with priority -1:" << endl;
+    Q.print(); // Print the queue contents
+
+    return 0; // End of program
+}
