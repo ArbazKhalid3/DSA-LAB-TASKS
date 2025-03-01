@@ -1,0 +1,188 @@
+Lab 14
+
+#include <iostream>
+using namespace std;
+
+class Node {
+private:
+    int data;
+    Node* right;
+    Node* left;
+
+public:
+    Node(int data) {
+        this->data = data;
+        this->right = NULL;
+        this->left = NULL;
+    }
+    
+    int getData() {
+        return data;
+    }
+
+    void setData(int data) {
+        this->data = data;
+    }
+        Node* getRight() {
+        return right;
+    }
+    
+    void setRight(Node* right) {
+        this->right = right;
+    }
+        Node* getLeft() {
+        return left;
+    }
+    
+    void setLeft(Node* left) {
+        this->left = left;
+    }
+
+
+
+
+};
+
+class BST {
+private:
+    Node* root;
+
+public:
+    BST() {
+        this->root = NULL;
+    }
+
+    void insert(int data) {
+        root = insert(root, data);
+    }
+
+    void display() {
+        display(root);
+        cout << endl;
+    }
+
+    bool search(int data) {
+        return searchRec(root, data);
+    }
+
+    void deleteNode(int data) {
+        root = Delete(root, data);
+    }
+
+    Node* insert(Node* root, int data) {
+        if (root == NULL) {
+            return new Node(data);
+        }
+
+        if (data < root->getData()) {
+            root->setLeft(insert(root->getLeft(), data));
+        } else {
+            root->setRight(insert(root->getRight(), data));
+        }
+        return root;
+    }
+
+    void display(Node* node) {
+        if (node != NULL) {
+            display(node->getLeft());
+            cout << node->getData() << " ";
+            display(node->getRight());
+        }
+    }
+
+    bool searchRec(Node* node, int data) {
+        if (node == NULL) {
+            return false;
+        }
+
+        if (data == node->getData()) {
+            return true;
+        }
+
+        if (data < node->getData()) {
+            return searchRec(node->getLeft(), data);
+        } else {
+            return searchRec(node->getRight(), data);
+        }
+    }
+
+    // Helper function to find the minimum value node in the tree
+    Node* FindMin(Node* node) {
+        while (node && node->getLeft() != NULL) {
+            node = node->getLeft();
+        }
+        return node;
+    }
+
+    // Function to delete a node from the tree
+    Node* Delete(Node* root, int data) {
+        if (root == NULL) 
+        return root;
+
+        // Find the node to delete
+        if (data < root->getData()) {
+            root->setLeft(Delete(root->getLeft(), data));
+        }
+        else if (data > root->getData()) {
+            root->setRight(Delete(root->getRight(), data));
+        }
+        else {
+            // Node found, now perform deletion
+
+            // Case 1: Node has no children
+            if (root->getLeft() == NULL && root->getRight() == NULL) {
+                delete root;
+                root = NULL;
+            }
+            // Case 2: Node has one child
+            else if (root->getLeft() == NULL) {
+                Node* temp = root;
+                root = root->getRight();
+                delete temp;
+            }
+            else if (root->getRight() == NULL) {
+                Node* temp = root;
+                root = root->getLeft();
+                delete temp;
+            }
+            // Case 3: Node has two children
+            else {
+                // Find the inorder successor (smallest node in the right subtree)
+                Node* temp = FindMin(root->getRight());
+                root->setData(temp->getData());
+                root->setRight(Delete(root->getRight(), temp->getData()));
+            }
+        }
+        return root;
+    }
+};
+
+int main() {
+    BST bst1;
+    cout<<"insertaing value"<<endl;
+    bst1.insert(12);
+    bst1.insert(11);
+    bst1.insert(2);
+    bst1.insert(65);
+    bst1.insert(23);
+    bst1.insert(9);
+    cout<<endl;
+    
+    cout << "Initial Tree: ";
+    bst1.display();
+
+    // Delete some nodes
+    bst1.deleteNode(2); // Delete a leaf node
+    cout << "After deleting 2: ";
+    bst1.display();
+
+    bst1.deleteNode(65); // Delete a node with two children
+    cout << "After deleting 65: ";
+    bst1.display();
+
+    bst1.deleteNode(23); // Delete a node with one child
+    cout << "After deleting 23: ";
+    bst1.display();
+
+    return 0;
+}
