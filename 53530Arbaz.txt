@@ -1,0 +1,214 @@
+QUIESTION 1
+#include <iostream>
+using namespace std;
+
+class queue{
+    public:
+    int length;
+    int size;
+    int rear;
+    int front;
+    int*qdata;
+    
+    queue(){
+        size=5;
+        length=0;
+        front=0;
+        rear=-1;
+        qdata=new int[size];
+    }
+    bool isempty(){
+        return length==0;
+    }
+    bool isfull(){
+        return length==size;
+    }
+    void equeue(int x)
+    {
+        if(isfull())
+        {
+            cout<<"queue is full"<<endl;
+            return;
+        }
+        rear=(rear+1)%size;
+        qdata[rear]=x;
+        length++;
+        cout<<"sucessfully inserted"<<endl;
+          if(front==-1)
+          {
+        front==0;
+    }
+    }
+  void dequeue()
+  {
+      if(isempty()){
+          cout<<"queue is empty"<<endl;
+          return;
+      }
+      front=(front+1)%size;
+      length--;
+      if(isempty()){
+          front=0;
+          rear=-1;
+      }
+      cout<<"removed"<<endl;
+  }
+  void print(){
+      if(isempty()){
+          cout<<"queue is empty"<<endl;
+      }
+      for(int i=0;i<length;i++){
+          cout<<qdata[(front+i)%size]<<" ";
+      }
+      cout<<endl;
+  }
+  
+};
+
+int main() {
+ queue myq;
+ myq.equeue(1);
+ myq.equeue(2);
+ myq.equeue(3);
+ myq.equeue(4);
+ myq.print();
+ 
+ myq.dequeue();
+ myq.print();
+ 
+myq.equeue(5);
+ myq.print();
+ 
+    return 0;
+}
+
+
+Question 2
+
+#include <iostream>
+using namespace std;
+
+class node{
+  private:
+  int data;
+  node* next;
+  public:
+  node(int data){
+      this->data=data;
+      this->next=NULL;
+  }
+  int getData(){
+      return data;
+  }
+  void setData(int data){
+      this->data=data;
+  }
+  node* getNext(){
+      return next;
+  }
+  void setNext(node*next){
+      this->next=next;
+  }
+};
+class queue{
+    public:
+    node* rear;
+    node* front;
+    
+    queue(){
+        this->rear=NULL;
+        this->front=NULL;
+    }
+    bool isempty(){
+        return front==NULL;
+    }
+    void equeue(int x){
+        node* n = new node(x);
+        if(isempty()){
+            rear=n;
+            front=n;
+        }
+        else{
+            rear->setNext(n);
+            rear=n;
+        }
+        cout<<"sucessfully inserted"<<endl;
+    }
+    void dequeue(){
+        if(isempty()){
+            cout<<"q is empty"<<endl;
+            return;
+        }
+        else{
+            node* temp=front;
+            front=front->getNext();
+            delete temp;
+        }
+        if(front==NULL){
+            rear=NULL;
+        }
+        cout<<"sucessfully removed"<<endl;
+    }
+    void print(){
+        if(isempty()){
+            cout<<"q is empty"<<endl;
+            return;
+        }
+        else{
+            node* temp=front;
+           do{
+                cout<<temp->getData()<<" ";
+               temp = temp->getNext();
+            } while(temp!=NULL);
+            cout<<endl;
+        }
+    }
+};
+
+int main() {
+     queue myq;
+     
+ myq.equeue(1);
+ myq.equeue(2);
+ myq.equeue(3);
+ myq.equeue(4);
+ myq.print();
+ 
+ myq.dequeue();
+ myq.print();
+ 
+myq.equeue(5);
+ myq.print();
+
+    return 0;
+}
+
+Question3
+include<iostream>
+using namespace std;
+ 
+int main()
+{
+    int size = 6;
+    int arr[] = {1,7,8,9,2,4};
+    int temp;
+    int j;
+    
+    for(int i = 1 ; i< size ;i++)
+    {
+        temp = arr[i];
+        j = i - 1;
+        while(j >= 0 && temp > arr[j])
+        {
+            arr[j + 1] =arr[j];
+            j = j-1;
+        }
+        arr[j+1]=temp;
+    }
+     for (int i = 0; i < size; i++) 
+     {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+ 
+}
