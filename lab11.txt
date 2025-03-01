@@ -1,0 +1,194 @@
+#include<iostream>
+using namespace std;
+
+class node{
+private:
+	int data;
+	node* left;
+	node* right;
+
+public:
+	node(int data) {
+		this->data = data;
+		this->left = NULL;
+		this->right = NULL;
+	}
+		int getData() {
+		return this->data;
+	}
+
+	void setData(int data) {
+		this->data = data;
+	}
+	
+		node* getLeft() {
+		return this->left;
+	}
+
+	void setLeft(node* left) {
+		this->left = left;
+	}
+	
+	
+	node* getRight() {
+		return this->right;
+	}
+
+	void setRight(node* right) {
+		this->right = right;
+	}
+
+
+};
+
+class bst {
+private:
+	node* root;
+public:
+	bst() {
+		this->root = NULL;
+	}
+
+	
+
+	void insert(int data) {
+		node* n = new node(data);
+		node* current;
+		node* parent;
+
+		if (root == NULL) {
+			root = n;
+		}
+		else {
+			current = root;
+			parent = NULL;
+
+			while (true) {
+				parent = current;
+                 
+                 //go to left
+				if (parent->getData() > data) {
+					current = current->getLeft();
+                     
+                     //insert left  
+					if (current == NULL) {
+						parent->setLeft(n);
+						return;
+					}
+				}
+				else {
+				    //go to right
+					current = current->getRight();
+					
+					//insert right
+
+					if (current == NULL) {
+						parent->setRight(n);
+						return;
+					}
+				}
+			}
+		}
+	}
+
+
+	node* search(int data) {
+		node* current = root;
+
+		cout << "Visiting Elements: " << endl;
+
+		while (current->getData() != data) {
+			if (current != NULL) {
+				cout << current->getData() << endl;
+			}
+
+			if (current->getData() > data) {
+				current = current->getLeft();
+			}
+			else {
+				current = current->getRight();
+			}
+			if (current == NULL) {
+				return NULL;
+			}
+		}
+		return current;
+	}
+   node* findMini(node* current) {
+    if (current == NULL) {
+        return nullptr; // Tree is empty
+    }
+    while (current->getLeft() != NULL)
+    {
+        current = current->getLeft();
+    }
+    return current;
+}
+// Function to find the maximum value in the BST
+node* findMaxi(node* current) {
+    if (current == NULL) {
+        return NULL; // Tree is empty
+    }
+    while (current->getRight() != NULL) 
+    {
+        current = current->getRight();
+
+         
+    }
+            return node->getData;
+   return current; 
+}
+
+// this functions to call from outside
+node* findMin() {
+    return findMini(root);
+}
+
+node* findMax() {
+    return findMaxi(root);
+}
+
+	void display(node* Node) {
+		if (Node == NULL) return;
+		display(Node->getLeft());
+		cout << Node->getData() << " ";
+		display(Node->getRight());
+	}
+
+	// this function to call display starting from the root
+	void display() {
+		display(root);
+		cout << endl;
+	}
+
+};
+
+int main() {
+	bst tree;
+    
+    
+    cout<<"inseration"<<endl;
+	tree.insert(27);
+	tree.insert(45);
+	tree.insert(75);
+	tree.insert(3);
+	tree.insert(39);
+	tree.insert(27);
+	tree.display();
+	cout<<endl;
+    
+    cout<<"searching if found"<<endl;
+    tree.search(3);
+    tree.display();
+    cout<<endl;
+    
+    cout<<"searching if not found"<<endl;
+    tree.search(1);
+    tree.display();
+    cout<<endl;
+    
+    cout<<"Maximum value"<<tree.findMax()<<""<<endl;
+    cout<<"Minimum value"<<tree.findMin()<<""<<endl;
+    
+    return 0;
+}
